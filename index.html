@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>欢迎学弟学妹们！</title>
-		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-		<script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="../random-name/css/index.css">
-	</head>
-	<body>
-		<div class="index_containt">
-			<div id="data_input">
-				<input type="button" id="enteringData" name="fileButton" value="录入数据"
-					onclick="$('#excel-file').click();" />
-				<input style="display: none;" type="file" id="excel-file">
-				<!--<input type="button" id="downTemplate" onclick="downloadTemplate()" value="下载模板" />-->
-			</div>
-			<div id="show_info">
-				<div id="student_name" style="color: rgb(13, 0, 255);">
-					<h1 id="student_name_value">--/--</h1>
-				</div>
-				<div id="btn_container">
-					<button id="start" disabled="true">开始</button>
-					<button id="end">停止</button>
-				</div>
-				<h4 id="student_number">还有 <span id='student_number_value'>0</span> 位同学未自我介绍</h4>
-			</div>
+
+<head>
+	<meta charset="UTF-8">
+	<title>欢迎学弟学妹们！</title>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+	<script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../random-name/css/index.css">
+</head>
+
+<body>
+	<div class="index_containt">
+		<div id="data_input">
+			<input type="button" id="enteringData" name="fileButton" value="录入数据" onclick="$('#excel-file').click();" />
+			<input style="display: none;" type="file" id="excel-file">
 		</div>
-	</body>
+		<div id="show_info">
+			<div id="student_name" style="color: rgb(13, 0, 255);">
+				<h1 id="student_name_value">--/--</h1>
+			</div>
+			<div id="btn_container">
+				<button id="start" disabled="true">开始</button>
+				<button id="end">停止</button>
+			</div>
+			<h4 id="student_number">还有 <span id='student_number_value'>0</span> 位同学未自我介绍</h4>
+		</div>
+	</div>
+</body>
+
 </html>
 <script>
 	var time;
 	var studentData = [];
 	//给input标签绑定change事件，一上传选中的.xls文件就会触发该函数
-	$('#excel-file').change(function(e) {
+	$('#excel-file').change(function (e) {
 		var files = e.target.files;
 		// console.log(files);
 		//判断文件格式
@@ -45,13 +46,13 @@
 			return;
 		}
 		var fileReader = new FileReader();
-		fileReader.onload = function(ev) {
+		fileReader.onload = function (ev) {
 			try {
 				var data = ev.target.result
 				var workbook = XLSX.read(data, {
 					type: 'binary'
 				})
-				var persons = []; 
+				var persons = [];
 			} catch (e) {
 				console.log('文件类型不正确');
 				return;
@@ -83,9 +84,9 @@
 		};
 		fileReader.readAsBinaryString(files[0]);
 	});
-	$('#start').click(function() {
+	$('#start').click(function () {
 		var studentNumber = document.getElementById("student_number_value").innerText;
-		time = window.setInterval(function() {
+		time = window.setInterval(function () {
 			var index = getRandom(1, studentNumber);
 			var name = studentData[index].姓名;
 			if (name.indexOf("!") === -1) {
@@ -94,21 +95,11 @@
 		}, 50)
 	});
 	//结束
-	$("#end").click(function() {
+	$("#end").click(function () {
 		window.clearInterval(time);
 	})
 	//随机数
 	function getRandom(min, max) {
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
-	//下载模板
-	//function downloadTemplate() {
-	//	var a = document.createElement("a"); //创建一个<a></a>标签
-	//	a.href = "/roster/static/花名册.xlsx"; // 给a标签的href属性值加上地址，注意，这里是绝对路径，不用加 点.
-	//	a.download = "花名册.xlsx"; //设置下载文件文件名，这里加上.xlsx指定文件类型，pdf文件就指定.fpd即可
-	//	a.style.display = "none"; // 障眼法藏起来a标签
-	//	document.body.appendChild(a); // 将a标签追加到文档对象中
-	//	a.click(); // 模拟点击了a标签，会触发a标签的href的读取，浏览器就会自动下载了
-	//	a.remove(); // 一次性的，用完就删除a标签
-	//}
 </script>
