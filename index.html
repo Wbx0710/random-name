@@ -6,101 +6,323 @@
 	<title>欢迎学弟学妹们！</title>
 	<link rel="icon" type="image/x-icon" href="favicon.png">
 	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-	<script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../random-name/css/index.css">
+	<link href="https://fonts.googleapis.com/css2?family=KaiTi&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'KaiTi', serif;
+			/* 设置字体为楷书 */
+			font-size: 18px;
+			/* 调大字体 */
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			/* 改为垂直布局 */
+			align-items: center;
+			/* 居中对齐 */
+			width: 60%;
+			margin: 0 auto;
+		}
+
+		.index_containt,
+		.drawn_students {
+			width: 100%;
+			/* 调整宽度 */
+			margin-top: 50px;
+			/* 添加顶部间距 */
+		}
+
+		#show_info {
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			/* 设置边框颜色 */
+			padding: 20px;
+			border-radius: 10px;
+			background-color: rgba(255, 255, 255, 0.5);
+			/* 设置背景颜色透明 */
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			color: black;
+			/* 设置字体颜色为黑色 */
+			text-align: center;
+			/* 居中对齐 */
+		}
+
+		.drawn_students {
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			/* 设置边框颜色 */
+			padding: 20px;
+			border-radius: 10px;
+			background-color: rgba(255, 255, 255, 0.5);
+			/* 设置背景颜色透明 */
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			max-height: 500px;
+			overflow-y: auto;
+			color: black;
+			/* 设置字体颜色为黑色 */
+			text-align: center;
+			/* 居中对齐 */
+		}
+
+		.drawn_students h3 {
+			margin-bottom: 20px;
+			font-size: 24px;
+			/* 调大标题字体 */
+		}
+
+		.drawn_students ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
+		.drawn_students ul li {
+			background: rgba(255, 255, 255, 0.8);
+			/* 设置背景颜色透明 */
+			margin: 5px 0;
+			padding: 10px;
+			border-radius: 5px;
+			text-align: center;
+			color: black;
+			/* 设置字体颜色为黑色 */
+			font-size: 20px;
+			/* 调大列表字体 */
+		}
+
+		#fireworks {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			display: none;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			z-index: 9999;
+			background-color: rgba(0, 0, 0, 0.8);
+		}
+
+		#fireworks canvas {
+			position: absolute;
+		}
+
+		#welcome_text {
+			color: white;
+			font-size: 48px;
+			text-align: center;
+			margin-top: 20px;
+		}
+	</style>
 </head>
 
 <body>
-	<div class="index_containt">
-		<div id="data_input">
-			<input type="button" id="enteringData" name="fileButton" value="录入数据" onclick="$('#excel-file').click();" />
-			<input style="display: none;" type="file" id="excel-file">
-		</div>
-		<div id="show_info">
-			<div id="student_name" style="color: rgb(13, 0, 255);">
-				<h1 id="student_name_value">--/--</h1>
+	<div class="container">
+		<div class="index_containt">
+			<div id="show_info">
+				<div id="student_name">
+					<h1 id="student_name_value">--/--</h1>
+				</div>
+				<div id="btn_container">
+					<button id="start">开始</button>
+				</div>
+				<h4 id="student_number">还有 <span id='student_number_value'>0</span> 位同学未自我介绍</h4>
 			</div>
-			<div id="btn_container">
-				<button id="start" disabled="true">开始</button>
-				<button id="end">停止</button>
-			</div>
-			<h4 id="student_number">还有 <span id='student_number_value'>0</span> 位同学未自我介绍</h4>
 		</div>
+		<div class="drawn_students">
+			<h3>加入材化高大家庭的学弟学妹们！</h3>
+			<ul id="drawn_list">
+				<!-- 已抽到的同学名单会显示在这里 -->
+			</ul>
+		</div>
+	</div>
+	<div id="fireworks">
+		<canvas id="fireworks_canvas"></canvas>
+		<div id="welcome_text">欢迎你！灿若星辰的浙大人！</div>
 	</div>
 </body>
 
 </html>
 <script>
-	var time;
-	var studentData = [];
-	//给input标签绑定change事件，一上传选中的.xls文件就会触发该函数
-	$('#excel-file').change(function (e) {
-		var files = e.target.files;
-		// console.log(files);
-		//判断文件格式
-		var fileName = files[0].name;
-		// console.log(fileName);
-		var suffix = fileName.split(".")[1];
-		// console.log(suffix);
-		if (suffix != 'xlsx' && suffix != 'xls' && suffix != 'xltx') {
-			alert("抱歉~请放入正确的文件!");
-			return;
-		}
-		var fileReader = new FileReader();
-		fileReader.onload = function (ev) {
-			try {
-				var data = ev.target.result
-				var workbook = XLSX.read(data, {
-					type: 'binary'
-				})
-				var persons = [];
-			} catch (e) {
-				console.log('文件类型不正确');
-				return;
-			}
-			// 表格的表格范围，可用于判断表头是否数量是否正确
-			var fromTo = '';
-			var studentNumbers = 0;
-			// 遍历每张表读取
-			for (var sheet in workbook.Sheets) {
-				if (workbook.Sheets.hasOwnProperty(sheet)) {
-					fromTo = workbook.Sheets[sheet]['!ref'];
-					console.log(fromTo);
-					persons = persons.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
-					studentNumbers = persons.length;
-					//检测数量
-					if (studentNumbers <= 0) {
-						alert("学生数量必须大于等于0!");
-						return;
-					}
-					document.getElementById("student_number_value").innerText = studentNumbers;
-					//检测列数
-					console.log(persons.length);
-					$('#start').attr("disabled", false);
-					break; // 如果只取第一张表，就取消注释这行
-				}
-			}
-			studentData = persons;
-			$("#area").val(JSON.stringify(persons));
-		};
-		fileReader.readAsBinaryString(files[0]);
-	});
-	$('#start').click(function () {
-		var studentNumber = document.getElementById("student_number_value").innerText;
-		time = window.setInterval(function () {
-			var index = getRandom(1, studentNumber);
+	var studentData = [
+		{ 姓名: "小红" },
+		{ 姓名: "小明" },
+		{ 姓名: "张伟" },
+		{ 姓名: "王芳" },
+		{ 姓名: "李娜" },
+		{ 姓名: "刘强" },
+		{ 姓名: "陈杰" },
+		{ 姓名: "杨洋" },
+		{ 姓名: "黄磊" },
+		{ 姓名: "吴敏" },
+		{ 姓名: "赵磊" },
+		{ 姓名: "周涛" },
+		{ 姓名: "徐丽" },
+		{ 姓名: "孙颖" },
+		{ 姓名: "马俊" },
+		{ 姓名: "朱琳" },
+		{ 姓名: "胡波" },
+		{ 姓名: "郭鹏" },
+		{ 姓名: "高峰" },
+		{ 姓名: "林静" },
+		{ 姓名: "罗浩" },
+		{ 姓名: "冯洁" },
+		{ 姓名: "唐亮" },
+		{ 姓名: "董敏" },
+		{ 姓名: "程飞" },
+		{ 姓名: "蔡军" },
+		{ 姓名: "谢玲" },
+		{ 姓名: "潘雷" },
+		{ 姓名: "魏伟" },
+		{ 姓名: "任红" }
+	];
+
+	document.getElementById("student_number_value").innerText = studentData.length;
+
+	document.getElementById('start').addEventListener('click', function () {
+		if (studentData.length > 0) {
+			var index = getRandom(0, studentData.length);
 			var name = studentData[index].姓名;
-			if (name.indexOf("!") === -1) {
-				document.getElementById("student_name_value").innerHTML = name;
+			document.getElementById("student_name_value").innerHTML = name;
+
+			// 将抽到的同学添加到已抽到名单中
+			var li = document.createElement("li");
+			li.textContent = name;
+			document.getElementById("drawn_list").appendChild(li);
+
+			studentData.splice(index, 1);
+			document.getElementById("student_number_value").innerText = studentData.length;
+			if (studentData.length == 0) {
+				document.getElementById('start').disabled = true;
 			}
-		}, 50)
+
+			// 显示烟花效果和欢迎文字
+			showFireworks();
+		}
 	});
-	//结束
-	$("#end").click(function () {
-		window.clearInterval(time);
-	})
-	//随机数
+
+	// 随机数
 	function getRandom(min, max) {
 		return Math.floor(Math.random() * (max - min)) + min;
+	}
+
+	// 显示烟花效果和欢迎文字
+	function showFireworks() {
+		var fireworksContainer = document.getElementById('fireworks');
+		var canvas = document.getElementById('fireworks_canvas');
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		fireworksContainer.style.display = 'flex';
+
+		// 初始化烟花效果
+		var ctx = canvas.getContext('2d');
+		var fireworks = [];
+		var particles = [];
+		var colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#8f00ff', '#ff1493', '#00ffff', '#ffd700'];
+
+		function createFirework(x, y, xEnd, yEnd) {
+			var firework = {
+				x: x,
+				y: y,
+				xEnd: xEnd,
+				yEnd: yEnd,
+				size: 2,
+				speed: 2,
+				angle: Math.atan2(yEnd - y, xEnd - x),
+				particles: [],
+				color: colors[Math.floor(Math.random() * colors.length)]
+			};
+			fireworks.push(firework);
+		}
+
+		function createParticles(x, y, color) {
+			for (var i = 0; i < 80; i++) {
+				var particle = {
+					x: x,
+					y: y,
+					size: 2,
+					speed: Math.random() * 3 + 1,
+					angle: Math.random() * Math.PI * 2,
+					alpha: 1,
+					decay: Math.random() * 0.02 + 0.01,
+					color: color
+				};
+				particles.push(particle);
+			}
+		}
+
+		function updateFireworks() {
+			for (var i = fireworks.length - 1; i >= 0; i--) {
+				var firework = fireworks[i];
+				firework.x += Math.cos(firework.angle) * firework.speed;
+				firework.y += Math.sin(firework.angle) * firework.speed;
+
+				if (Math.abs(firework.x - firework.xEnd) < firework.speed && Math.abs(firework.y - firework.yEnd) < firework.speed) {
+					createParticles(firework.xEnd, firework.yEnd, firework.color);
+					fireworks.splice(i, 1);
+				}
+			}
+
+			for (var i = particles.length - 1; i >= 0; i--) {
+				var particle = particles[i];
+				particle.x += Math.cos(particle.angle) * particle.speed;
+				particle.y += Math.sin(particle.angle) * particle.speed;
+				particle.alpha -= particle.decay;
+
+				if (particle.alpha <= 0) {
+					particles.splice(i, 1);
+				}
+			}
+		}
+
+		function drawFireworks() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			for (var i = 0; i < fireworks.length; i++) {
+				var firework = fireworks[i];
+				ctx.fillStyle = firework.color;
+				ctx.beginPath();
+				ctx.arc(firework.x, firework.y, firework.size, 0, Math.PI * 2);
+				ctx.fill();
+			}
+
+			for (var i = 0; i < particles.length; i++) {
+				var particle = particles[i];
+				ctx.fillStyle = 'rgba(' + hexToRgb(particle.color) + ',' + particle.alpha + ')';
+				ctx.beginPath();
+				ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+				ctx.fill();
+			}
+		}
+
+		function loop() {
+			updateFireworks();
+			drawFireworks();
+			requestAnimationFrame(loop);
+		}
+
+		// 创建烟花
+		for (var i = 0; i < 20; i++) {
+			createFirework(canvas.width / 2, canvas.height, Math.random() * canvas.width, Math.random() * canvas.height / 2);
+		}
+
+		loop();
+
+		// 3秒后隐藏烟花效果和欢迎文字
+		setTimeout(function () {
+			fireworksContainer.style.display = 'none';
+			fireworks = [];
+			particles = [];
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}, 5000);
+	}
+
+	function hexToRgb(hex) {
+		var bigint = parseInt(hex.substring(1), 16);
+		var r = (bigint >> 16) & 255;
+		var g = (bigint >> 8) & 255;
+		var b = bigint & 255;
+		return r + "," + g + "," + b;
 	}
 </script>

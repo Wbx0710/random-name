@@ -1,158 +1,276 @@
+/* 全局设置，移除所有元素的默认外边距和内边距 */
 * {
 	margin: 0;
 	padding: 0;
 }
 
+/* html和body元素的高度设为100%，并移除默认的外边距和内边距 */
 html,
 body {
-	height: 100%;
 	height: 100%;
 	margin: 0;
 	padding: 0;
 }
 
+/* body元素的样式 */
 body {
 	width: 100%;
+	/* 宽度设为100% */
 	height: 100%;
+	/* 高度设为100% */
 	background: url(../img/background.jpg) no-repeat;
+	/* 设置背景图片，不重复 */
 	background-size: 100% 100%;
+	/* 背景图片大小设为覆盖整个屏幕 */
 	background-attachment: fixed;
+	/* 背景图片固定，不随滚动条移动 */
 	z-index: 1;
+	/* 设置z-index为1 */
 }
 
+/* .index_containt类的样式 */
 .index_containt {
 	width: 100%;
+	/* 宽度设为100% */
 	height: 100%;
+	/* 高度设为100% */
 	margin: 0 auto;
+	/* 设置外边距为自动，水平居中 */
 }
 
+/* #data_input元素的样式 */
 #data_input {
 	width: 50px;
+	/* 宽度设为50像素 */
 	height: 120px;
+	/* 高度设为120像素 */
 	position: fixed;
+	/* 固定定位 */
 	left: 0px;
+	/* 距离左侧0像素 */
 	top: 40%;
+	/* 距离顶部40% */
 }
 
+/* #enteringData元素的样式 */
 #enteringData {
 	width: 50px;
+	/* 宽度设为50像素 */
 	height: 59px;
+	/* 高度设为59像素 */
 	border: none;
+	/* 无边框 */
 	color: white;
+	/* 字体颜色为白色 */
 	font-size: 10px;
+	/* 字体大小为10像素 */
 	background-color: rgba(255, 255, 255, 0.4);
+	/* 背景颜色为白色，透明度40% */
 	box-shadow: 0 2px 5px rgba(20, 20, 20, 0.8);
+	/* 添加阴影效果 */
 	display: flex;
+	/* 使用Flex布局 */
 	align-items: center;
+	/* 垂直居中 */
 	top: 100px;
+	/* 距离顶部100像素 */
 	backdrop-filter: blur(10px);
+	/* 添加模糊效果 */
 	transition-duration: 0.1s;
+	/* 过渡效果持续时间为0.1秒 */
 }
 
+/* #downTemplate元素的样式 */
 #downTemplate {
 	width: 50px;
+	/* 宽度设为50像素 */
 	height: 59px;
+	/* 高度设为59像素 */
 	border: none;
+	/* 无边框 */
 	color: white;
+	/* 字体颜色为白色 */
 	margin-top: 4px;
+	/* 顶部外边距为4像素 */
 	font-size: 10px;
+	/* 字体大小为10像素 */
 	background-color: rgba(255, 255, 255, 0.4);
+	/* 背景颜色为白色，透明度40% */
 	box-shadow: 0 2px 5px rgba(20, 20, 20, 0.8);
+	/* 添加阴影效果 */
 	display: flex;
+	/* 使用Flex布局 */
 	align-items: center;
+	/* 垂直居中 */
 	top: 100px;
+	/* 距离顶部100像素 */
 	backdrop-filter: blur(10px);
+	/* 添加模糊效果 */
 	transition-duration: 0.5s;
+	/* 过渡效果持续时间为0.5秒 */
 }
 
+/* #data_input元素的active状态样式 */
 #data_input:active {
 	background-color: gray;
+	/* 背景颜色为灰色 */
 }
 
+/* #downTemplate元素的active状态样式 */
 #downTemplate:active {
 	background-color: gray;
+	/* 背景颜色为灰色 */
 }
 
+/* #enteringData元素的hover状态样式 */
 #enteringData:hover {
 	font-weight: bold;
+	/* 字体加粗 */
 	transform: scale(1.1);
+	/* 放大1.1倍 */
 }
 
+/* #downTemplate元素的hover状态样式 */
 #downTemplate:hover {
 	font-weight: bold;
+	/* 字体加粗 */
 	transform: scale(1.1);
+	/* 放大1.1倍 */
 }
 
+/* #show_info元素的样式 */
 #show_info {
 	position: relative;
-	left: 50%;
+	/* 相对定位 */
 	width: 800px;
+	/* 宽度为800像素 */
 	height: 400px;
-	left: 32%;
-	top: 35%;
-	background-color: rgba(255, 255, 255, 0.4);
+	/* 高度为400像素 */
+	left: 10%;
+	/* 距离左侧10% */
+	top: 30px;
+	/* 距离顶部30像素 */
+	background-color: rgba(255, 255, 255, 0.8);
+	/* 背景颜色为白色，透明度0% */
 	box-shadow: 0 2px 15px rgba(20, 20, 20, 0.8);
+	/* 添加阴影效果 */
 	border-radius: 10px;
-	top: 100px;
+	/* 圆角边框 */
 	backdrop-filter: blur(10px);
+	/* 添加模糊效果 */
 }
 
+/* #excel-file元素的样式 */
 #excel-file {
 	width: 50px;
+	/* 宽度为50像素 */
 	color: red;
+	/* 字体颜色为红色 */
 }
 
+/* #student_name元素的样式 */
 #student_name {
 	display: flex;
+	/* 使用Flex布局 */
 	align-items: center;
+	/* 垂直居中 */
 	justify-content: center;
+	/* 水平居中 */
 	width: 100%;
+	/* 宽度为100% */
 	height: 45%;
+	/* 高度为45% */
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	/* 字体样式 */
 	font-size: 40px;
+	/* 字体大小为40像素 */
+	color: aliceblue;
+	/* 字体颜色为天蓝色 */
 }
-#btn_container{
+
+/* #btn_container元素的样式 */
+#btn_container {
 	display: flex;
+	/* 使用Flex布局 */
 	align-items: center;
+	/* 垂直居中 */
 	justify-content: center;
+	/* 水平居中 */
 	width: 100%;
+	/* 宽度为100% */
 	height: 45%;
+	/* 高度为45% */
 }
-#student_name_value{
+
+/* #student_name_value元素的样式 */
+#student_name_value {
 	color: aliceblue;
+	/* 字体颜色为天蓝色 */
 }
-#student_number{
+
+/* #student_number元素的样式 */
+#student_number {
 	display: flex;
+	/* 使用Flex布局 */
 	align-items: center;
+	/* 垂直居中 */
 	padding-left: 15px;
+	/* 左侧内边距为15像素 */
 	width: 100%;
+	/* 宽度为100% */
 	height: 10%;
-	color: aliceblue;;
-}
-#start,#end{
-	width: 150px;
-	height: 50px;
-	background-color: #180eda;
-	border: none;
-	margin-right: 10px;
+	/* 高度为10% */
 	color: aliceblue;
+	/* 字体颜色为天蓝色 */
+}
+
+/* #start和#end元素的样式 */
+#start,
+#end {
+	width: 150px;
+	/* 宽度为150像素 */
+	height: 50px;
+	/* 高度为50像素 */
+	background-color: #180eda;
+	/* 背景颜色为深蓝色 */
+	border: none;
+	/* 无边框 */
+	margin-right: 10px;
+	/* 右外边距为10像素 */
+	color: aliceblue;
+	/* 字体颜色为天蓝色 */
 	transition-duration: 0.3s;
-}
-#start:hover{
-	transform: scale(1.1);
-	font-weight: bold;
-}
-#end:hover{
-	transform: scale(1.1);
-	font-weight: bold;
-}
-#start:active{
-	transform: scale(1.1);
-	background-color: #368254;
-}
-#end:active{
-	transform: scale(1.1);
-	background-color: #368254;
+	/* 过渡效果持续时间为0.3秒 */
 }
 
+/* #start元素的hover状态样式 */
+#start:hover {
+	transform: scale(1.1);
+	/* 放大1.1倍 */
+	font-weight: bold;
+	/* 字体加粗 */
+}
 
+/* #end元素的hover状态样式 */
+#end:hover {
+	transform: scale(1.1);
+	/* 放大1.1倍 */
+	font-weight: bold;
+	/* 字体加粗 */
+}
+
+/* #start元素的active状态样式 */
+#start:active {
+	transform: scale(1.1);
+	/* 放大1.1倍 */
+	background-color: #368254;
+	/* 背景颜色为绿色 */
+}
+
+/* #end元素的active状态样式 */
+#end:active {
+	transform: scale(1.1);
+	/* 放大1.1倍 */
+	background-color: #368254;
+	/* 背景颜色为绿色 */
+}
