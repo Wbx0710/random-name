@@ -1,0 +1,104 @@
+body {
+    font-family: 'KaiTi', serif;
+    /* 设置字体为楷书 */
+    font-size: 18px;
+    /* 调大字体 */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    /* 改为垂直布局 */
+    align-items: center;
+    /* 居中对齐 */
+    width: 60%;
+    margin: 0 auto;
+}
+
+.index_containt,
+.drawn_students {
+    width: 100%;
+    /* 调整宽度 */
+    margin-top: 260px;
+    /* 添加顶部间距 */
+}
+
+#show_info {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* 设置边框颜色 */
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* 设置背景颜色透明 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: black;
+    /* 设置字体颜色为黑色 */
+    text-align: center;
+    /* 居中对齐 */
+}
+
+.drawn_students {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* 设置边框颜色 */
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* 设置背景颜色透明 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-height: 500px;
+    overflow-y: auto;
+    color: black;
+    /* 设置字体颜色为黑色 */
+    text-align: center;
+    /* 居中对齐 */
+}
+
+.drawn_students h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    /* 调大标题字体 */
+}
+
+.drawn_students ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.drawn_students ul li {
+    background: rgba(255, 255, 255, 0.8);
+    /* 设置背景颜色透明 */
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    color: black;
+    /* 设置字体颜色为黑色 */
+    font-size: 20px;
+    /* 调大列表字体 */
+}
+
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#fireworks canvas {
+    position: absolute;
+}
+
+#welcome_text {
+    color: white;
+    font-size: 48px;
+    text-align: center;
+    margin-top: 20px;
+}
