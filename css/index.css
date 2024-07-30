@@ -152,13 +152,13 @@ body {
 	/* 距离顶部50% */
 	transform: translate(-50%, -50%);
 	/* 使用translate使元素居中 */
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0);
 	/* 背景颜色为白色，透明度80% */
 	box-shadow: 0 2px 15px rgba(20, 20, 20, 0.8);
 	/* 添加阴影效果 */
 	border-radius: 10px;
 	/* 圆角边框 */
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(1px);
 	/* 添加模糊效果 */
 }
 
@@ -183,7 +183,7 @@ body {
 	/* 宽度为100% */
 	height: 45%;
 	/* 高度为45% */
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-family: 'Hanalei Fill', cursive;
 	/* 字体样式 */
 	font-size: 40px;
 	/* 字体大小为40像素 */
@@ -207,8 +207,10 @@ body {
 
 /* #student_name_value元素的样式 */
 #student_name_value {
-	color: aliceblue;
+	color: rgb(0, 136, 255);
 	/* 字体颜色为天蓝色 */
+	font-family: 'Hanalei Fill', cursive;
+	/* 字体样式 */
 }
 
 /* #student_number元素的样式 */
@@ -223,7 +225,7 @@ body {
 	/* 宽度为100% */
 	height: 10%;
 	/* 高度为10% */
-	color: aliceblue;
+	color: rgb(0, 0, 0);
 	/* 字体颜色为天蓝色 */
 }
 

@@ -5,10 +5,38 @@
 	<meta charset="UTF-8">
 	<title>欢迎学弟学妹们！</title>
 	<link rel="icon" type="image/x-icon" href="favicon.png">
+	<link href="https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 	<link rel="stylesheet" type="text/css" href="../random-name/css/index.css">
 	<link href="https://fonts.googleapis.com/css2?family=KaiTi&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../random-name/css/style.css">
+	<style>
+		/* 新增样式 */
+		#btn_container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 10px;
+		}
+
+		#btn_container button {
+			margin: 5px 50px;
+			padding: 10px 20px;
+			font-size: 16px;
+			border-radius: 5px;
+			border: none;
+			background-color: #007bff;
+			color: white;
+			cursor: pointer;
+			width: 33%;
+			box-sizing: border-box;
+		}
+
+		#btn_container button:disabled {
+			background-color: #d3d3d3;
+			cursor: not-allowed;
+		}
+	</style>
 </head>
 
 <body>
@@ -16,10 +44,11 @@
 		<div class="index_containt">
 			<div id="show_info">
 				<div id="student_name">
-					<h1 id="student_name_value">--/--</h1>
+					<h1 id="student_name_value">欢迎学弟学妹们！</h1>
 				</div>
 				<div id="btn_container">
 					<button id="start">开始</button>
+					<button id="undo">撤回</button>
 				</div>
 				<h4 id="student_number">还有 <span id='student_number_value'>0</span> 位同学未自我介绍</h4>
 			</div>
@@ -72,6 +101,7 @@
 		{ 姓名: "任红" }
 	];
 
+	var drawnStudents = [];
 	document.getElementById("student_number_value").innerText = studentData.length;
 
 	document.getElementById('start').addEventListener('click', function () {
@@ -85,6 +115,9 @@
 			li.textContent = name;
 			document.getElementById("drawn_list").appendChild(li);
 
+			// 记录抽到的同学
+			drawnStudents.push(studentData[index]);
+
 			studentData.splice(index, 1);
 			document.getElementById("student_number_value").innerText = studentData.length;
 			if (studentData.length == 0) {
@@ -93,6 +126,26 @@
 
 			// 显示烟花效果和欢迎文字
 			showFireworks();
+		}
+	});
+
+	document.getElementById('undo').addEventListener('click', function () {
+		if (drawnStudents.length > 0) {
+			var lastStudent = drawnStudents.pop();
+			studentData.push(lastStudent);
+
+			var drawnList = document.getElementById("drawn_list");
+			drawnList.removeChild(drawnList.lastChild);
+
+			document.getElementById("student_number_value").innerText = studentData.length;
+			document.getElementById('start').disabled = false;
+
+			// 显示上一个同学的名字
+			if (drawnStudents.length > 0) {
+				document.getElementById("student_name_value").innerHTML = drawnStudents[drawnStudents.length - 1].姓名;
+			} else {
+				document.getElementById("student_name_value").innerHTML = "欢迎学弟学妹们！";
+			}
 		}
 	});
 
