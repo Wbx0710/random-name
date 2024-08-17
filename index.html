@@ -36,6 +36,29 @@
 			background-color: #d3d3d3;
 			cursor: not-allowed;
 		}
+
+		#welcome_text {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-family: 'KaiTi', serif;
+			font-size: 4em;
+			color: #ffffff;
+			text-align: center;
+			z-index: 10;
+			/* 确保文字在烟花效果上方 */
+		}
+
+		#fireworks_canvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 5;
+			/* 确保canvas在文字的下方 */
+		}
 	</style>
 </head>
 
@@ -69,32 +92,12 @@
 </html>
 <script>
 	var studentData = [
-		{ 姓名: "张书涵" },
-		{ 姓名: "曾子芸" },
-		{ 姓名: "崔彦宁" },
-		{ 姓名: "李璇伊" },
-		{ 姓名: "夏之阳" },
-		{ 姓名: "俞懿倪" },
-		{ 姓名: "许馨然" },
-		{ 姓名: "李林辰" },
-		{ 姓名: "黄禾" },
-		{ 姓名: "赵珂" },
-		{ 姓名: "王熠麟" },
-		{ 姓名: "丁宣壹" },
-		{ 姓名: "祝子瑞" },
-		{ 姓名: "刘佳宝" },
-		{ 姓名: "邓雨航" },
-		{ 姓名: "林一鑫" },
-		{ 姓名: "王屹涵" },
-		{ 姓名: "董小乐" },
-		{ 姓名: "王法捷" },
-		{ 姓名: "李甫成" },
-		{ 姓名: "陈嘉信" },
-		{ 姓名: "王浩冬" },
-		{ 姓名: "袁德志" },
-		{ 姓名: "韦懿迅" },
-		{ 姓名: "代睿聪" },
-		{ 姓名: "方杨" },
+		{ 姓名: "张书涵" }, { 姓名: "曾子芸" }, { 姓名: "崔彦宁" }, { 姓名: "李璇伊" }, { 姓名: "夏之阳" },
+		{ 姓名: "俞懿倪" }, { 姓名: "许馨然" }, { 姓名: "李林辰" }, { 姓名: "黄禾" }, { 姓名: "赵珂" },
+		{ 姓名: "王熠麟" }, { 姓名: "丁宣壹" }, { 姓名: "祝子瑞" }, { 姓名: "刘佳宝" }, { 姓名: "邓雨航" },
+		{ 姓名: "林一鑫" }, { 姓名: "王屹涵" }, { 姓名: "董小乐" }, { 姓名: "王法捷" }, { 姓名: "李甫成" },
+		{ 姓名: "陈嘉信" }, { 姓名: "王浩冬" }, { 姓名: "袁德志" }, { 姓名: "韦懿迅" }, { 姓名: "代睿聪" },
+		{ 姓名: "方杨" }
 	];
 
 	var drawnStudents = [];
@@ -154,6 +157,11 @@
 	function showFireworks() {
 		var fireworksContainer = document.getElementById('fireworks');
 		var canvas = document.getElementById('fireworks_canvas');
+		var welcomeText = document.getElementById('welcome_text');
+
+		// 动态设置欢迎文字内容
+		welcomeText.innerHTML = `欢迎你<br>${document.getElementById("student_name_value").innerText}<br>灿若星辰的浙大人！`;
+
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 
@@ -221,7 +229,15 @@
 		}
 
 		function drawFireworks() {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			// 将全局透明度设置为 0.2，数值越低背景越透明
+			ctx.globalAlpha = 0.2;
+
+			// 用半透明的黑色填充背景，这样可以让之前的轨迹慢慢消失
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+			// 恢复全局透明度为不透明，以绘制烟花和粒子
+			ctx.globalAlpha = 1.0;
 
 			for (var i = 0; i < fireworks.length; i++) {
 				var firework = fireworks[i];
